@@ -1,0 +1,66 @@
+﻿@model ClinicaMedica.Models.Entidades.ExamePrescrito
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ExamePrescrito</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Exame.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Exame.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Medico.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Medico.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Detalhes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Detalhes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.File)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.File)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResultadoLiberado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultadoLiberado)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ExamePrescritoId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

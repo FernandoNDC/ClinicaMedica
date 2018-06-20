@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ClinicaMedica.Models.Entidades.Medico>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Médicos</h2>
+
+<p>
+    <a href="@Url.Action("Create", "Medicos")" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    </a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Especializacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a href="@Url.Action("Details", "Medicos", new { id = item.MedicoId })">
+                    @Html.DisplayFor(modelItem => item.Nome) @Html.DisplayFor(modelItem => item.Sobrenome)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Especializacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", "Medicos", new { id = item.MedicoId })" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                </a>
+                <a href="@Url.Action("Delete", "Medicos", new { id = item.MedicoId })" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+

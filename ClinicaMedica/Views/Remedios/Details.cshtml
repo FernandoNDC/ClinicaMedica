@@ -1,0 +1,42 @@
+﻿@model ClinicaMedica.Models.Entidades.Remedio
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Remedio</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NomeGenerico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomeGenerico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NomeFabrica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomeFabrica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fabricante)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fabricante)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RemedioId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<ClinicaMedica.Models.Entidades.ExamePrescrito>
+
+<div class="container tableContainer">
+    <div class="col-md-12">
+        <table id="" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Exame
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Detalhes)
+                    </th>
+                    <th>
+                        Resultado
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Exame.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Detalhes)
+                        </td>
+                        <td>
+                            @if (item.ResultadoLiberado == true)
+                            {
+                                @Html.DisplayFor(modelItem => item.ResultadoUrl)
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

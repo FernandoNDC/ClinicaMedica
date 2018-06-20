@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ClinicaMedica.Models.Entidades.RemedioPrescrito>
+
+<div class="container tableContainer">
+    <div class="col-md-12">
+        <table id="" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Remédio
+                    </th>
+                    <th>
+                        Paciente
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Posologia)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Remedio.NomeFabrica) (@Html.DisplayFor(modelItem => item.Remedio.NomeGenerico))
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Paciente.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Posologia)
+                        </td>
+                        <td>
+                            <button class="btn btn-primary editRemedio" data-id="@item.RemedioPrescritoId">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </button>
+                            <button class="btn btn-danger deleteRemedio" data-id="@item.RemedioPrescritoId">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

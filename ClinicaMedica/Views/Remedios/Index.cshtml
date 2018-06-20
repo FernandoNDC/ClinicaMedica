@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ClinicaMedica.Models.Entidades.Remedio>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NomeGenerico)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NomeFabrica)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fabricante)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NomeGenerico)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NomeFabrica)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fabricante)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RemedioId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RemedioId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RemedioId })
+        </td>
+    </tr>
+}
+
+</table>

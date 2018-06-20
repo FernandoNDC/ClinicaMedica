@@ -1,0 +1,279 @@
+﻿@model ClinicaMedica.Models.Entidades.Medico
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Dr. @Html.DisplayFor(model => model.Nome)</h2>
+
+<div>
+    <hr />
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Detalhes
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Nome)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Nome)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Sobrenome)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Sobrenome)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Especializacao)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Especializacao)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.DataNascimento)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.DataNascimento)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CPF)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CPF)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Email)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Telefone)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Telefone)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Rua)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Rua)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Numero)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Numero)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Cidade)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Cidade)
+                        </dd>
+                    </dl>
+                    <div class="form-group">
+                        <div class="col-md-offset-0 col-md-12">
+                            <button class="btn btn-primary edit" data-id="@Model.MedicoId">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Consultas
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body">
+                    @{ Html.RenderAction("ListarAgendadasM", "Consultas", new { MedicoId = Model.MedicoId });}
+                    @{ Html.RenderAction("ListarRealizadasM", "Consultas", new { MedicoId = Model.MedicoId });}
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Remédios
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    @{ Html.RenderAction("ListarRemedioPrescritoM", "RemedioPrescritos", new { MedicoId = Model.MedicoId });}
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingFour">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        Exames
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                <div class="card-body">
+                    @{ Html.RenderAction("ListarExamePrescritoM", "ExamePrescritos", new { MedicoId = Model.MedicoId });}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modal">
+</div>
+
+@Styles.Render("~/Content/DataTables/css/jquery.dataTables.min.css")
+@Styles.Render("~/Content/frontpage.css")
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $(function () {
+                $(".edit").click(function () {
+                    var id = $(this).attr("data-id");
+                    $("#modal").load("/Medicos/Edit?id=" + id, function () {
+                        $("#modal").modal();
+                    })
+                });
+            });
+
+            $(function () {
+                $(".confirmar").click(function () {
+                    var id = $(this).attr("data-id");
+                    $("#modal").load("/Consultas/Confirmar?id=" + id, function () {
+                        $("#modal").modal();
+                    })
+                });
+            });
+
+            $(function () {
+                $(".deleteRemedio").click(function () {
+                    var id = $(this).attr("data-id");
+                    $("#modal").load("/RemedioPrescritos/Delete?id=" + id, function () {
+                        $("#modal").modal();
+                    })
+                });
+            });
+
+            $(function () {
+                $(".editRemedio").click(function () {
+                    var id = $(this).attr("data-id");
+                    $("#modal").load("/RemedioPrescritos/Edit?id=" + id, function () {
+                        $("#modal").modal();
+                    })
+                });
+            });
+
+            $(function () {
+                $(".deleteExame").click(function () {
+                    var id = $(this).attr("data-id");
+                    $("#modal").load("/ExamePrescritos/Delete?id=" + id, function () {
+                        $("#modal").modal();
+                    })
+                });
+            });
+
+            $(function () {
+                $(".editExame").click(function () {
+                    var id = $(this).attr("data-id");
+                    $("#modal").load("/ExamePrescritos/Edit?id=" + id, function () {
+                        $("#modal").modal();
+                    })
+                });
+            });
+
+            $(function () {
+                $(".chckResultado").click(function () {
+                    var id = $(this).attr("data-id");
+                    if (document.getElementById(id).checked == true) {
+                        var pacienteID = $(this).attr("data-pacienteId");
+                        var medicoID = $(this).attr("data-medicoId");
+                        var exameID = $(this).attr("data-exameId");
+                        $.ajax({
+                            method: "POST",
+                            url: "/ExamePrescritos/Liberar/",
+                            data: {
+                                examePrescritoId: id,
+                                exameId: exameID,
+                                medicoId: medicoID,
+                                pacienteId: pacienteID,
+                                resultadoLiberado: true
+                            },
+                            success: function () {
+                                window.location.reload();
+                            }
+                        })
+                    }
+
+                });
+            });
+
+            $('table.display').DataTable({
+                "language": {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+
+        });
+    </script>
+}

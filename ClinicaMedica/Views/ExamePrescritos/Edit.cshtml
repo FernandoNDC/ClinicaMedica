@@ -1,0 +1,44 @@
+﻿@model ClinicaMedica.Models.Entidades.ExamePrescrito
+
+@{
+    Layout = null;
+    ViewBag.Title = "Edit";
+}
+
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        @using (Html.BeginForm())
+        {
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Editar exame:  @Html.DisplayFor(model => model.Exame.Nome)</h4>
+            </div>
+
+            @Html.AntiForgeryToken()
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.ExamePrescritoId)
+                    @Html.HiddenFor(model => model.PacienteId, new { Value = @ViewBag.examePrescrito.PacienteId })
+                    @Html.HiddenFor(model => model.ExameId, new { Value = @ViewBag.examePrescrito.ExameId })
+                    @Html.HiddenFor(model => model.MedicoId, new { Value = @ViewBag.examePrescrito.MedicoId })
+                    @Html.HiddenFor(model => model.ResultadoLiberado, new { Value = @ViewBag.examePrescrito.ResultadoLiberado })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Detalhes, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Detalhes, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Detalhes, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <input type="button" value="Cancelar" class="btn btn-default" data-dismiss="modal" />
+            </div>
+        }
+    </div>
+</div>
+
+

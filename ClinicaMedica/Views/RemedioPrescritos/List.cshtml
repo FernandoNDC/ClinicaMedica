@@ -1,0 +1,82 @@
+﻿@model IEnumerable<ClinicaMedica.Models.Entidades.RemedioPrescrito>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>Remédios Prescritos</h2>
+
+<table id="myTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Médico
+            </th>
+            <th>
+                Paciente
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remedio.NomeGenerico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Posologia)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Medico.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Paciente.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remedio.NomeGenerico)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Posologia)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Styles.Render("~/Content/DataTables/css/jquery.dataTables.min.css")
+@section scripts{
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#myTable').DataTable({
+                "language": {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+
+        });
+
+    </script>
+}

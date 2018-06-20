@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ClinicaMedica.Models.Entidades.Consulta>
+
+<div class="container tableContainer">
+    <div class="col-md-12">
+        <h5 class="tituloConsulta">
+            Consultas Realizadas
+        </h5>
+    </div>
+    <div class="col-md-12">
+        <table id="" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DataConsulta)
+                    </th>
+                    <th>
+                        Paciente
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DataConsulta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Paciente.Nome)
+                        </td>
+                        <td class="statusRealizada">
+                            Realizada
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

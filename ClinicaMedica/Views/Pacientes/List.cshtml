@@ -1,0 +1,121 @@
+﻿@model IEnumerable<ClinicaMedica.Models.Entidades.Paciente>
+
+@{
+    ViewBag.Title = "Pacientes";
+}
+
+<h2>Pacientes</h2>
+
+<p>
+    @if (User.IsInRole("Administrador"))
+    {
+        <button class="btn btn-success create">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+    }
+    </p>
+
+<table id="myTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th data-column-id="Nome" data-order="desc" data-identifier="true">
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th data-column-id="Email">
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="dataRow">
+                <td>
+                    <a href="@Url.Action("Details", "Pacientes", new { id = item.PacienteId })">
+                        @Html.DisplayFor(modelItem => item.Nome) @Html.DisplayFor(modelItem => item.Sobrenome)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <button class="btn btn-primary edit" data-id="@item.PacienteId">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </button>
+                        <button class="btn btn-danger delete" data-id="@item.PacienteId">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </button>
+                    }
+                    </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal" id="modal">
+</div>
+
+@Styles.Render("~/Content/DataTables/css/jquery.dataTables.min.css")
+@section scripts{
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $(".create").click(function () {
+                    $("#modal").load("Create", function () {
+                        $("#modal").modal();
+                    })
+                });
+            });
+
+            $(function () {
+                $(".delete").click(function () {
+                    var id = $(this).attr("data-id");
+                    $("#modal").load("Delete?id=" + id, function () {
+                        $("#modal").modal();
+                    })
+                });
+            });
+
+            $(function () {
+                $(".edit").click(function () {
+                    var id = $(this).attr("data-id");
+                    $("#modal").load("Edit?id=" + id, function () {
+                        $("#modal").modal();
+                    })
+                });
+            });
+
+            $('#myTable').DataTable({
+                "language": {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+
+        });
+    </script>
+}

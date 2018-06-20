@@ -1,0 +1,250 @@
+﻿@model ClinicaMedica.Models.Entidades.Consulta
+
+@{
+    ViewBag.Title = "Consultar";
+}
+
+<h2>Consultas @Model.Paciente.Nome @Model.Paciente.Sobrenome</h2>
+<hr />
+<div class="container">
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.ConsultaId)
+        <div class="container">
+            <div class="form-group col-md-12">
+                @Html.TextArea("Anamnese", new { @class = "form-control input-lg anamnese", @id = "anamnese", @placeholder = "Anamnese..." })
+            </div>
+        </div>
+        <div id="remediosPrescritos" class="container">
+            <div id="listaRemedios" class="col-md-12 no-lateral-padding">
+                @{ Html.RenderAction(
+                               "ListarRemedioPrescrito",
+                               "RemedioPrescritos",
+                               new { PacienteId = Model.PacienteId });
+                }
+            </div>
+            <div class="col-md-12 no-lateral-padding">
+                @{ Html.RenderAction(
+                                               "Receitar",
+                                               "RemedioPrescritos",
+                                               new
+                                               {
+                                                   PacienteId = Model.PacienteId,
+                                                   MedicoId = Model.MedicoId
+                                               });
+                }
+            </div>
+        </div>
+        <div id="examesPrescritos" class="container">
+            <div id="listaExames" class="col-md-12 no-lateral-padding">
+                @{ Html.RenderAction(
+                                "ListarExamePrescrito",
+                                "ExamePrescritos",
+                                new { PacienteId = Model.PacienteId });
+                }
+            </div>
+            <div class="col-md-12 no-lateral-padding">
+                @{ Html.RenderAction(
+                        "Requisitar",
+                        "ExamePrescritos",
+                        new
+                        {
+                            PacienteId = Model.PacienteId,
+                            MedicoId = Model.MedicoId
+                        });
+                }
+            </div>
+        </div>
+        <div class="col-md-12">
+            <input type="submit" value="Confirmar" class="btn btn-primary" id="btnConfirmar" />
+        </div>
+    </div>
+</div>
+
+@Styles.Render("~/Content/DataTables/css/jquery.dataTables.min.css")
+@Styles.Render("~/Content/bootstrap-select.min.css")
+@Styles.Render("~/Content/frontpage.css")
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/bootstrap-select.min.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            btnRemedio();
+            btnExame();
+
+            $("#btnAddRemedio").click(function () {
+                $("#btnAddRemedio").attr("disabled", true);
+                $.ajax({
+                    method: "POST",
+                    url: "/RemedioPrescritos/Adicionar/",
+                    data: {
+                        remedioId: $("#remedioSeletor").val(),
+                        medicoId: @Model.MedicoId,
+                        pacienteId : @Model.PacienteId,
+                        posologia : $("#posologia").val()
+                    },
+                    success: function (){
+                        $("#remedioSeletor").val("default");
+                        $("#posologia").val([]);
+                        atualizarListaRemedios();
+                        window.location.reload();
+                    },
+                    complete: function (){
+                        btnRemedio();
+                    }
+                })
+            });
+
+            $("#btnAddExame").click(function () {
+                $("#btnAddExame").attr("disabled", true);
+                $.ajax({
+                    method: "POST",
+                    url: "/ExamePrescritos/Adicionar/",
+                    data: {
+                        exameId: $("#exameSeletor").val(),
+                        medicoId: @Model.MedicoId,
+                        pacienteId : @Model.PacienteId,
+                        detalhes: $("#detalhes").val()
+                    },
+                    success: function (){
+                        $("#exameSeletor").val("default");
+                        $("#detalhes").val([]);
+                        atualizarListaExames();
+                        window.location.reload();
+                    },
+                    complete: function (){
+                        btnExame();
+                    }
+                })
+            });
+
+            $("#btnConfirmar").click(function () {
+                $.ajax({
+                    method: "POST",
+                    url: "/Consultas/Consultar/",
+                    data: {
+                        Anamnese: $("#anamnese").val(),
+                        consultaId : @Model.ConsultaId
+                    },
+                    complete: function () {
+                        var id = @Model.MedicoId;
+                        $(location).attr('href', '/Medicos/Details/'+ id);
+                    }
+                })
+            });
+
+            $(".remedioDelete").on('click', function (e) {
+                var id = $(this).attr('data-id');
+                $.post('/RemedioPrescritos/DeleteConsultando/' + id).then(function () {
+                    atualizarListaRemedios();
+                    window.location.reload();
+                });
+            });
+
+            $(".exameDelete").on('click', function (e) {
+                var id = $(this).attr('data-id');
+                $.post('/ExamePrescritos/DeleteConsultando/' + id).then(function () {
+                    atualizarListaExames();
+                    window.location.reload();
+                });
+            });
+
+
+            function btnRemedio() {
+                if ($("#remedioSeletor").val() && $("#posologia").val()) {
+                    $("#btnAddRemedio").attr("disabled", false);
+                }
+                else {
+                    $("#btnAddRemedio").attr("disabled", true);
+                }
+            }
+
+            $("#posologia").keyup(function () {
+                btnRemedio();
+                });
+
+            $("#remedioSeletor").on("changed.bs.select", function (e) {
+                btnRemedio();
+            });
+
+            function btnExame() {
+                if ($("#exameSeletor").val() && $("#detalhes").val()) {
+                    $("#btnAddExame").attr("disabled", false);
+                }
+                else {
+                    $("#btnAddExame").attr("disabled", true);
+                }
+            }
+
+            $("#detalhes").keyup(function () {
+                btnExame();
+            });
+
+            $("#exameSeletor").on("changed.bs.select", function (e) {
+                btnExame();
+            });
+
+            function atualizarListaRemedios() {
+                $.ajax(
+                    {
+                        type: 'GET',
+                        url: '/RemedioPrescritos/ListarRemedioPrescrito',
+                        data: {
+                            pacienteId: @Model.PacienteId
+                    },
+                        dataType: 'html',
+                        cache: false,
+                        async: true,
+                        success: function (data) {
+                            $('#listaRemedios').html(data);
+                        }
+                    });
+            }
+
+            function atualizarListaExames() {
+                $.ajax(
+                    {
+                        type: 'GET',
+                        url: '/ExamePrescritos/ListarExamePrescrito',
+                        data: {
+                            pacienteId: @Model.PacienteId
+                    },
+                        dataType: 'html',
+                        cache: false,
+                        async: true,
+                        success: function (data) {
+                            $('#listaExames').html(data);
+                        }
+                    });
+            }
+
+            $('table.display').DataTable({
+                "language": {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+
+        });
+    </script>
+}

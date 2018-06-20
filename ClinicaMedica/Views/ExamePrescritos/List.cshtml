@@ -1,0 +1,146 @@
+﻿@model IEnumerable<ClinicaMedica.Models.Entidades.ExamePrescrito>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Exames Prescritos</h2>
+
+<table id="myTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Exame
+            </th>
+            <th>
+                Médico
+            </th>
+            <th>
+                Paciente
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Detalhes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResultadoUrl)
+            </th>
+            <th>
+                Carregar Resultado
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResultadoLiberado)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Exame.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Medico.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Paciente.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Detalhes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResultadoUrl)
+                </td>
+                <td>
+                    <button class="btn btn-success upload" data-id="@item.ExamePrescritoId">
+                        <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+                    </button>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResultadoLiberado)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal" id="modal">
+</div>
+
+@Styles.Render("~/Content/DataTables/css/jquery.dataTables.min.css")
+@section scripts{
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $(function () {
+                $(".upload").click(function () {
+                    var id = $(this).attr("data-id");
+                    $("#modal").load("/ExamePrescritos/Upload?id=" + id, function () {
+                        $("#modal").modal();
+                    })
+                });
+            });
+
+            $('#myTable').DataTable({
+                "language": {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+
+
+        });
+    </script>
+}
+<!--
+ console.log("Entrou");
+                var id = $(this).attr("data-id");
+                var data = new FormData();
+                var files = $("#fileUpload").get(0).files;
+                // Add the uploaded image content to the form data collection
+                if (files.length > 0) {
+                    data.append("UploadedImage", files[0]);
+                }
+                // Make Ajax request with the contentType = false, and procesDate = false
+                if (document.getElementById(id).checked == true) {
+                    var pacienteID = $(this).attr("data-pacienteId");
+                    var medicoID = $(this).attr("data-medicoId");
+                    var exameID = $(this).attr("data-exameId");
+                    $.ajax({
+                        method: "POST",
+                        url: "/ExamePrescritos/Upload/",
+                        contentType: false,
+                        processData: false,
+                        data: {
+                            examePrescritoId: id,
+                            exameId: exameID,
+                            medicoId: medicoID,
+                            pacienteId: pacienteID,
+                            data
+                        },
+                        success: function () {
+                            window.location.reload();
+                        }
+                    });
+                }
+    -->

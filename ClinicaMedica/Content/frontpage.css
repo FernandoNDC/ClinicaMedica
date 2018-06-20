@@ -1,0 +1,52 @@
+﻿.tituloConsulta {
+    font-size: 40px;
+}
+
+.tableContainer {
+    background-color: rgba(24, 188, 156, 0.48);
+    border-radius: 25px;
+    border: 2px solid #18BC9C;
+    padding: 10px;
+    margin: 10px;
+    width: inherit;
+}
+
+.card-header {
+    background-color: rgba(128, 128, 128, 0.08);
+    border-radius: 5px;
+    padding: 1px;
+    margin: 2px;
+}
+
+.anamnese {
+    width: inherit;
+}
+
+
+.equal {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+
+div[class*='col-'] {
+    flex: 1 1 auto;
+    display: flex;
+}
+
+.panel {
+    flex: 1 0 100%;
+}
+
+.boxContainer {
+    background-color: rgba(24, 188, 156, 0.48);
+    border-radius: 25px;
+    border: 2px solid #18BC9C;
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+}
+
+

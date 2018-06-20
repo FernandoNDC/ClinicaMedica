@@ -1,0 +1,70 @@
+﻿@model IEnumerable<ClinicaMedica.Models.Entidades.Consulta>
+
+@{
+    ViewBag.Title = "ListarAgendadas";
+}
+
+<div class="container tableContainer">
+    <div class="col-md-12">
+        <h5 class="tituloConsulta">
+            Consultas Agendadas
+        </h5>
+    </div>
+    <div class="col-md-12">
+        <table id="" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DataConsulta)
+                    </th>
+                    <th>
+                        Médico
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Medico.Especializacao)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DataConsulta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Medico.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Medico.Especializacao)
+                        </td>
+                        @if (item.Status == 1)
+                        {
+                            <td>
+                                Agendada
+                            </td>
+                        }
+                        @if (item.Status == 2)
+                        {
+                            <td>
+                                Confirmada
+                            </td>
+                        }
+                        <td>
+                            <button class="btn btn-danger delete" data-id="@item.ConsultaId">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

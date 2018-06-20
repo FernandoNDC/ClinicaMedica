@@ -1,0 +1,30 @@
+﻿@model ClinicaMedica.Models.Entidades.ExamePrescrito
+
+@{
+    ViewBag.Title = "Requisitar";
+}
+
+<div class="jumbotron">
+    <div id="addExame" class="row">
+        <div class="col-md-4">
+            <select id="exameSeletor" class="textarea-maxsize selectpicker" data-live-search="true">
+                @foreach (var item in ViewBag.ExameLista)
+                {
+                <option value="@item.ExameID">@item.Nome</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-5">
+            @Html.TextArea("Detalhes", new { @class = "form-control", @id = "detalhes", @placeholder = "Detalhes..." })
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-success" id="btnAddExame">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

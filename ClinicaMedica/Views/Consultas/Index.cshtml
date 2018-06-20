@@ -1,0 +1,89 @@
+﻿@model IEnumerable<ClinicaMedica.Models.Entidades.Consulta>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Medico.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Paciente.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataConsulta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Anamnese)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Medico.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Paciente.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataConsulta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Anamnese)
+        </td>
+        @if (item.Status == 1)
+        {
+            <td>
+                <button class="btn btn-primary confirmar" data-id="@item.ConsultaId">
+                    Confirmar
+                </button>
+            </td>
+        }
+        @if (item.Status == 2)
+        {
+            <td>
+                <button class="btn btn-primary consultar" data-id="@item.ConsultaId">
+                    Consultar
+                </button>
+            </td>
+        }
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ConsultaId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ConsultaId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ConsultaId })
+        </td>
+    </tr>
+    }
+
+</table>
+
+<div class="modal" id="modal">
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $(".confirmar").click(function () {
+                    var id = $(this).attr("data-id");
+                    $("#modal").load("Confirmar?id=" + id, function () {
+                        $("#modal").modal();
+                    })
+                });
+            });
+        });
+    </script>
+}

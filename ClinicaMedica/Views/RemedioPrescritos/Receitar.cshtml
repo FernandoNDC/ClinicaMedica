@@ -1,0 +1,30 @@
+﻿@model ClinicaMedica.Models.Entidades.RemedioPrescrito
+
+@{
+    ViewBag.Title = "Receitar";
+}
+
+<div class="jumbotron">
+    <div id="addRemedio" class="row">
+        <div class="col-md-4">
+            <select id="remedioSeletor" class="textarea-maxsize selectpicker" data-live-search="true">
+                @foreach (var item in ViewBag.RemedioLista)
+                {
+                <option value="@item.RemedioId">@item.NomeFabrica (@item.NomeGenerico)</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-5">
+            @Html.TextArea("Posologia", new { @class = "form-control", @id = "posologia", @placeholder = "Posologia..." })
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-success" id="btnAddRemedio">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

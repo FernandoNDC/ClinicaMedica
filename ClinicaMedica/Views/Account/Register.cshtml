@@ -1,0 +1,121 @@
+﻿@model ClinicaMedica.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Registrar</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Criar novo usuário.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.UserName, new { @id= "UserName", @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @id="Email", @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @id = "Password", @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, "Perfil", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownList("Name", null, htmlAttributes: new { @id = "seletorPerfil", @class = "form-control" })
+        </div>
+    </div>
+
+    <div id="medicoDiv" hidden="hidden">
+        <!-- @{ Html.RenderAction("CreateR", "Medicos");} -->
+    </div>
+
+    <div id="pacienteDiv" hidden="hidden">
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Register" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $('#seletorPerfil').change(function () {
+                selec = $(this).find("option:selected").val();
+                console.log(selec);
+
+                if (selec == "Medico") {
+                    $('#medicoDiv').show();
+                    $('#pacienteDiv').hide();
+                }
+                if (selec == "Paciente") {
+                    $('#pacienteDiv').show();
+                    $('#medicoDiv').hide();
+                }
+                if (selec == "Administrador") {
+                    $('#pacienteDiv').hide();
+                    $('#medicoDiv').hide();
+                }
+
+            });
+
+            $("#btnRegistrar").click(function () {
+                $.ajax({
+                    method: "POST",
+                    url: "/Medicos/CreateR/",
+                    data: {
+                        Nome: $("#Nome").val(),
+                        Sobrenome: $("#Sobrenome").val(),
+                        Especializacao: $("#Especializacao").val(),
+                        DataNascimento: $("#DataNascimento").val(),
+                        CPF: $("#CPF").val(),
+                        Telefone: $("#Telefone").val(),
+                        Rua: $("#Rua").val(),
+                        Numero: $("#Numero").val(),
+                        Cidade: $("#Cidade").val(),
+                        Email: $("#Email").val()
+                    },
+                    success: function () {
+
+                    }
+                })
+                $.ajax({
+                    method: "POST",
+                    url: "/Account/Register/",
+                    data: {
+                        UserName: $("#UserName").val(),
+                        Email: $("#Email").val(),
+                        Password: $("#Password").val(),
+                        Name: $("#seletorPerfil").val()
+                    },
+                    success: function () {
+
+                    }
+                })
+            });
+            
+        });
+    </script>
+}

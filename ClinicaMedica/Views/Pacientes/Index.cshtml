@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ClinicaMedica.Models.Entidades.Paciente>
+
+@{
+    ViewBag.Title = "Pacientes";
+}
+
+<h2>Pacientes</h2>
+
+<p>
+    <a href="@Url.Action("Create", "Pacientes")" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    </a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a href="@Url.Action("Details", "Pacientes", new { id = item.PacienteId })">
+                    @Html.DisplayFor(modelItem => item.Nome) @Html.DisplayFor(modelItem => item.Sobrenome)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", "Pacientes", new { id = item.PacienteId })" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                </a>
+                <button class="btn btn-danger delete" data-id="@item.PacienteId">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </button>
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="modal" id="modal">
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $(".delete").click(function () {
+                    var id = $(this).attr("data-id");
+                    $("#modal").load("Delete?id=" + id, function () {
+                        $("#modal").modal();
+                    })
+                });
+            });
+        });
+    </script>
+}
