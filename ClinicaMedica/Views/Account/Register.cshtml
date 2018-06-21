@@ -44,11 +44,9 @@
     </div>
 
     <div id="medicoDiv" hidden="hidden">
-        <!-- @{ Html.RenderAction("CreateR", "Medicos");} -->
     </div>
 
     <div id="pacienteDiv" hidden="hidden">
-
     </div>
 
     <div class="form-group">
@@ -79,41 +77,6 @@
                     $('#medicoDiv').hide();
                 }
 
-            });
-
-            $("#btnRegistrar").click(function () {
-                $.ajax({
-                    method: "POST",
-                    url: "/Medicos/CreateR/",
-                    data: {
-                        Nome: $("#Nome").val(),
-                        Sobrenome: $("#Sobrenome").val(),
-                        Especializacao: $("#Especializacao").val(),
-                        DataNascimento: $("#DataNascimento").val(),
-                        CPF: $("#CPF").val(),
-                        Telefone: $("#Telefone").val(),
-                        Rua: $("#Rua").val(),
-                        Numero: $("#Numero").val(),
-                        Cidade: $("#Cidade").val(),
-                        Email: $("#Email").val()
-                    },
-                    success: function () {
-
-                    }
-                })
-                $.ajax({
-                    method: "POST",
-                    url: "/Account/Register/",
-                    data: {
-                        UserName: $("#UserName").val(),
-                        Email: $("#Email").val(),
-                        Password: $("#Password").val(),
-                        Name: $("#seletorPerfil").val()
-                    },
-                    success: function () {
-
-                    }
-                })
             });
             
         });
